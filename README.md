@@ -1,58 +1,41 @@
 # Bitespeed Identity Reconciliation Service
 
-A backend service for customer identity reconciliation that helps link different orders made with different contact information to the same person.
+Backend service for customer identity reconciliation. It consolidates contact information based on email addresses or phone numbers.
 
-## Setup
+## Live API Endpoint
 
-1. Install dependencies:
-```bash
-npm install
-```
+The `/identify` endpoint is hosted on Render and can be accessed at:
 
-2. Ensure you have MySQL server running.
-3. Update the `.env` file with your MySQL connection string for the `DATABASE_URL` variable (e.g., `DATABASE_URL="mysql://user:password@host:port/database_name"`). Prisma will use this.
+[`https://identity-reconciliation-bitespeed-oem6.onrender.com/identify`](https://identity-reconciliation-bitespeed-oem6.onrender.com/identify)
 
-4. Set up the database schema using Prisma Migrate. This command will create the database if it doesn't exist and apply the schema defined in `prisma/schema.prisma`:
-```bash
-npx prisma migrate dev --name init
-```
-   This will also generate the Prisma Client based on your schema.
+### Request Body
 
-5. Start the development server:
-```bash
-npm run dev
-```
+Send a `POST` request with a JSON body:
 
-## API Endpoints
-
-### POST /identify
-
-Identifies and links customer contacts based on email or phone number.
-
-**Request Body**
 ```json
 {
   "email": "example@email.com",
   "phoneNumber": "1234567890"
 }
 ```
+*   At least one of `email` or `phoneNumber` must be provided.
 
-**Response**
+### Response Body
+
 ```json
 {
   "contact": {
     "primaryContactId": 1,
-    "emails": ["example@email.com"],
-    "phoneNumbers": ["1234567890"],
-    "secondaryContactIds": []
+    "emails": ["primary@example.com", "secondary@example.com"],
+    "phoneNumbers": ["1234567890", "0987654321"],
+    "secondaryContactIds": [2, 3]
   }
 }
 ```
 
 ## Features
 
-- Links contacts based on common email or phone number
-- Maintains primary-secondary contact relationships
-- Automatically creates new contacts when needed
-- Returns consolidated contact information
-- Handles both new and existing contacts
+- Links contacts based on common email or phone number.
+- Maintains primary-secondary contact relationships.
+- Automatically creates new contacts when needed.
+- Returns consolidated contact information.
