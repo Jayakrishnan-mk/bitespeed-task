@@ -1,6 +1,6 @@
 import prisma from '../database/connection';
 import { Contact, LinkPrecedence } from '@prisma/client';
-import { ContactResponse, IdentifyRequest } from '../types/contact'; // Keep these for request/response structure
+import { ContactResponse, IdentifyRequest } from '../types/contact';
 
 export class ContactService {
   async identify(request: IdentifyRequest): Promise<ContactResponse> {

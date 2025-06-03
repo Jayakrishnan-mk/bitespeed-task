@@ -1,5 +1,4 @@
 import { ContactService } from '../services/contactService';
-import { IdentifyRequest } from '../types/contact';
 
 export class ContactController {
   constructor(private contactService: ContactService) {}
